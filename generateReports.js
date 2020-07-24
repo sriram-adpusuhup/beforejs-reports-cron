@@ -1,7 +1,11 @@
+const atob = require('atob');
+
 const generateVariationLevelJsReport = (siteVariationsData = []) => {
   return new Promise((resolve, reject) => {
     const results = [];
     const cache = {};
+    let nonUniqueAJsCount = 0;
+    let nonUniqueBJsCount = 0;
   
     for (let site of siteVariationsData) {
       if (!site.variations) continue;
@@ -39,7 +43,6 @@ const generateVariationLevelJsReport = (siteVariationsData = []) => {
           } else {
             if (beforeJs.length !== 0) {
               nonUniqueBJsCount++;
-              console.log("Repeated code found beforeJs");
             }
           }
         }
@@ -53,7 +56,6 @@ const generateVariationLevelJsReport = (siteVariationsData = []) => {
           } else {
             if (afterJs.length !== 0) {
               nonUniqueAJsCount++;
-              console.log("Repeated code found afterJs");
             }
           }
         }
@@ -61,8 +63,14 @@ const generateVariationLevelJsReport = (siteVariationsData = []) => {
         if (isChanged) results.push(data);
       }
     }
+
+    console.log({nonUniqueAJsCount, nonUniqueBJsCount});
   
-    resolve(results);
+    resolve({
+      results,
+      nonUniqueAJsCount,
+      nonUniqueBJsCount
+    });
   })
 };
 
@@ -75,7 +83,8 @@ const generateSiteLevelJsReport = (sitesData = []) => {
       platform: 'N/A',
       variationId: 'N/A',
       variationName: 'N/A',
-      beforeJs: atob(site.beforeJs)
+      beforeJs: atob(site.beforeJs),
+      afterJs: 'N/A'
     }));
     resolve(results);
   })

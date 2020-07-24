@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "atob": "^2.1.2",
+    "bluebird": "^3.7.2",
     "couchbase": "2.5.1",
     "express": "^4.17.1",
+    "google-spreadsheet": "^3.0.11",
     "mssql": "^6.2.0",
     "node-utils": "git://github.com/adpushup/NodeUtils.git"
   }
